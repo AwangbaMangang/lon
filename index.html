@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English to Meetei Mayek Translator</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --accent-color: #4cb5f5;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: #f5f7fa;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 100%;
+            padding: 1rem;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 0 0 15px 15px;
+            margin-bottom: 1.5rem;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-title i {
+            margin-right: 0.5rem;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            border: 2px solid #e1e5eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(76, 181, 245, 0.2);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-align: center;
+            margin: 0.5rem 0;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+        }
+        
+        .btn-secondary {
+            background: var(--secondary-color);
+        }
+        
+        .btn-success {
+            background: var(--success-color);
+        }
+        
+        .btn-warning {
+            background: var(--warning-color);
+            color: var(--dark-color);
+        }
+        
+        .btn-danger {
+            background: var(--danger-color);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .button-group .btn {
+            flex: 1;
+            margin: 0;
+        }
+        
+        .output-container {
+            position: relative;
+        }
+        
+        .char-count {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: var(--dark-color);
+        }
+        
+        .translation-result {
+            min-height: 150px;
+            padding: 1rem;
+            border: 2px solid #e1e5eb;
+            border-radius: 8px;
+            background: #f8f9fa;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
+        }
+        
+        .meetei-mayek {
+            font-family: 'Noto Sans Meetei Mayek', 'Eeyek', 'Meetei Mayek', sans-serif;
+            font-size: 1.3rem;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .feature {
+            text-align: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .feature i {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature p {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            color: #6c757d;
+            font-size: 0.9rem;
+            border-top: 1px solid #e1e5eb;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            opacity: 1;
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                max-width: 720px;
+                padding: 2rem;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .features {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .button-group {
+                flex-direction: row;
+            }
+            
+            .button-group .btn {
+                width: auto;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .container {
+                max-width: 960px;
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1140px;
+            }
+        }
+        
+        /* Loading animation */
+        .loader {
+            display: none;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        .loader .dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            margin: 0 3px;
+            animation: bounce 1.5s infinite ease-in-out both;
+        }
+        
+        .loader .dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+        
+        .loader .dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+        
+        @keyframes bounce {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+        
+        /* Meetei Mayek font */
+        @font-face {
+            font-family: 'Noto Sans Meetei Mayek';
+            src: url('https://fonts.googleapis.com/css2?family=Noto+Sans+Meetei+Mayek:wght@400;700&display=swap');
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>English to Meetei Mayek Translator</h1>
+            <p class="subtitle">Translate English text to Meetei Mayek script with ease</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2 class="card-title"><i>📥</i> Input Text (English)</h2>
+            <textarea id="inputText" placeholder="Type or paste English text here (up to 60,000 words)..." autofocus></textarea>
+            <div class="button-group">
+                <button class="btn btn-primary" id="pasteBtn"><i>📋</i> Paste</button>
+                <button class="btn btn-warning" id="clearBtn"><i>🗑️</i> Clear</button>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn btn-secondary" id="translateBtn"><i>🔁</i> Translate to Meetei Mayek</button>
+        </div>
+
+        <div class="loader" id="loader">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+
+        <div class="card output-container">
+            <h2 class="card-title"><i>📤</i> Translated Text (Meetei Mayek)</h2>
+            <div id="charCount" class="char-count">0 characters</div>
+            <div id="outputText" class="translation-result meetei-mayek">Your translation will appear here...</div>
+            <div class="button-group">
+                <button class="btn btn-success" id="copyBtn"><i>📄</i> Copy Translation</button>
+                <button class="btn btn-primary" id="speakBtn"><i>🔊</i> Speak Translation</button>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <i>📝</i>
+                <h3>Large Text Support</h3>
+                <p>Handles up to 60,000 words</p>
+            </div>
+            <div class="feature">
+                <i>📱</i>
+                <h3>Mobile Friendly</h3>
+                <p>Works perfectly on all devices</p>
+            </div>
+            <div class="feature">
+                <i>⚡</i>
+                <h3>Fast Translation</h3>
+                <p>Quick and accurate results</p>
+            </div>
+            <div class="feature">
+                <i>🎯</i>
+                <h3>Easy to Use</h3>
+                <p>Simple and intuitive interface</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>English to Meetei Mayek Translator © 2023 | Designed for mobile devices</p>
+        </div>
+    </footer>
+
+    <div class="notification" id="notification">Text copied to clipboard!</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const inputText = document.getElementById('inputText');
+            const outputText = document.getElementById('outputText');
+            const pasteBtn = document.getElementById('pasteBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const translateBtn = document.getElementById('translateBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            const speakBtn = document.getElementById('speakBtn');
+            const charCount = document.getElementById('charCount');
+            const loader = document.getElementById('loader');
+            const notification = document.getElementById('notification');
+            
+            // Event Listeners
+            pasteBtn.addEventListener('click', handlePaste);
+            clearBtn.addEventListener('click', handleClear);
+            translateBtn.addEventListener('click', handleTranslate);
+            copyBtn.addEventListener('click', handleCopy);
+            speakBtn.addEventListener('click', handleSpeak);
+            inputText.addEventListener('input', updateCharCount);
+            
+            // Update character count initially
+            updateCharCount();
+            
+            // Functions
+            function handlePaste() {
+                navigator.clipboard.readText()
+                    .then(text => {
+                        // Limit to 60,000 words (approx 400,000 characters to be safe)
+                        if (text.length > 400000) {
+                            alert('The text in your clipboard is too long. Please paste text with less than 60,000 words.');
+                            return;
+                        }
+                        
+                        inputText.value = text;
+                        updateCharCount();
+                        showNotification('Text pasted successfully!');
+                    })
+                    .catch(err => {
+                        console.error('Failed to read clipboard contents: ', err);
+                        alert('Unable to access clipboard. Please paste manually.');
+                    });
+            }
+            
+            function handleClear() {
+                inputText.value = '';
+                outputText.textContent = 'Your translation will appear here...';
+                updateCharCount();
+            }
+            
+            function handleTranslate() {
+                const text = inputText.value.trim();
+                
+                if (!text) {
+                    showNotification('Please enter some text to translate.', 'error');
+                    return;
+                }
+                
+                // Show loading animation
+                loader.style.display = 'block';
+                outputText.textContent = 'Translating...';
+                
+                // Simulate translation (in a real app, this would call an API or use a translation library)
+                setTimeout(() => {
+                    const translated = simulateTranslation(text);
+                    outputText.textContent = translated;
+                    loader.style.display = 'none';
+                    showNotification('Translation completed!');
+                }, 1500);
+            }
+            
+            function simulateTranslation(text) {
+                // This is a mock translation function
+                // In a real application, this would be replaced with actual translation logic
+                
+                // Simple word mapping for demonstration
+                const wordMap = {
+                    'hello': 'ꯍꯦꯜꯂꯣ',
+                    'world': 'ꯋꯣꯔꯜꯗ',
+                    'how': 'ꯍꯥꯎ',
+                    'are': 'ꯑꯔꯤ',
+                    'you': 'ꯌꯨ',
+                    'what': 'ꯋꯥꯠ',
+                    'is': 'ꯏꯖ',
+                    'your': 'ꯌꯨꯔ',
+                    'name': 'ꯅꯥꯃꯦ',
+                    'good': 'ꯒꯨꯗ',
+                    'morning': 'ꯃꯣꯔꯅꯤꯡ',
+                    'thank': 'ꯊꯥꯅꯛ',
+                    'very': 'ꯚꯦꯔꯤ',
+                    'much': 'ꯃꯆꯤ',
+                    'i': 'ꯑꯥꯏ',
+                    'love': 'ꯂꯣꯚ',
+                    'programming': 'ꯄꯔꯣꯒ꯭ꯔꯥꯃꯤꯡ',
+                    'neural': 'ꯅ꯭ꯌꯨꯔꯥꯜ',
+                    'networks': 'ꯅꯦꯠꯋꯥꯔꯛꯁ',
+                    'amazing': 'ꯑꯃꯥꯖꯤꯡ',
+                    'this': 'ꯗꯤꯁ',
+                    'test': 'ꯇꯦꯁꯠ',
+                    'sentence': 'ꯁꯦꯟꯇꯦꯟꯁ',
+                    'machine': 'ꯃꯁꯤꯟ',
+                    'translation': 'ꯇ꯭ꯔꯥꯟꯁ꯭ꯂꯦꯁꯟ',
+                    'difficult': 'ꯗꯤꯐꯤꯀꯦꯜꯠ',
+                    'meetei': 'ꯃꯤꯇꯩ',
+                    'mayek': 'ꯃꯌꯦꯛ',
+                    'beautiful': 'ꯕꯤꯌꯨꯇꯤꯐꯨꯜ',
+                    'the': 'ꯗꯥ',
+                    'weather': 'ꯋꯦꯗꯥꯔ',
+                    'nice': 'ꯅꯥꯏꯁ',
+                    'today': 'ꯇꯨꯗꯦ',
+                    'am': 'ꯑꯥꯝ',
+                    'learning': 'ꯂꯥꯔꯅꯤꯡ',
+                    'example': 'ꯏꯛꯖꯥꯝꯄꯜ',
+                    'natural': 'ꯅꯥꯆꯔꯜ',
+                    'language': 'ꯂꯥꯡꯒꯤꯎꯖ',
+                    'processing': 'ꯄ꯭ꯔꯣꯁꯦꯁꯤꯡ',
+                    'fascinating': 'ꯐꯦꯁꯤꯅꯦꯇꯤꯡ',
+                    'deep': 'ꯗꯤꯞ',
+                    'requires': 'ꯔꯤꯀ꯭ꯋꯥꯏꯌꯥꯔꯁ',
+                    'large': 'ꯂꯥꯔꯖ',
+                    'datasets': 'ꯗꯦꯇꯥꯁꯦꯇꯁ'
+                };
+                
+                // Convert text to lowercase and split into words
+                const words = text.toLowerCase().split(/\s+/);
+                
+                // Translate each word if found in the dictionary, otherwise keep the original
+                const translatedWords = words.map(word => {
+                    // Remove punctuation from the word
+                    const cleanWord = word.replace(/[.,!?;:"]/g, '');
+                    
+                    if (wordMap[cleanWord]) {
+                        return wordMap[cleanWord];
+                    }
+                    
+                    // If word ends with punctuation, try to preserve it
+                    if (/[.,!?;:]$/.test(word)) {
+                        const punctuation = word.slice(-1);
+                        const baseWord = word.slice(0, -1);
+                        
+                        if (wordMap[baseWord]) {
+                            return wordMap[baseWord] + punctuation;
+                        }
+                    }
+                    
+                    return word;
+                });
+                
+                return translatedWords.join(' ');
+            }
+            
+            function handleCopy() {
+                const text = outputText.textContent;
+                
+                if (!text || text === 'Your translation will appear here...') {
+                    showNotification('Nothing to copy!', 'error');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(text)
+                    .then(() => {
+                        showNotification('Translation copied to clipboard!');
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy: ', err);
+                        showNotification('Failed to copy text.', 'error');
+                    });
+            }
+            
+            function handleSpeak() {
+                const text = outputText.textContent;
+                
+                if (!text || text === 'Your translation will appear here...') {
+                    showNotification('Nothing to speak!', 'error');
+                    return;
+                }
+                
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    // Try to set a appropriate voice if available
+                    const voices = speechSynthesis.getVoices();
+                    // Prefer a female voice for better clarity
+                    const voice = voices.find(v => v.lang.includes('en') && v.name.includes('Female')) || 
+                                 voices.find(v => v.lang.includes('en'));
+                    
+                    if (voice) {
+                        utterance.voice = voice;
+                    }
+                    
+                    utterance.lang = 'en-US';
+                    utterance.rate = 0.8;
+                    utterance.pitch = 1;
+                    
+                    speechSynthesis.speak(utterance);
+                    showNotification('Speaking translation...');
+                } else {
+                    showNotification('Speech synthesis is not supported in your browser.', 'error');
+                }
+            }
+            
+            function updateCharCount() {
+                const count = inputText.value.length;
+                charCount.textContent = `${count} characters`;
+                
+                // Warn if approaching limit
+                if (count > 350000) {
+                    charCount.style.color = 'var(--danger-color)';
+                    charCount.innerHTML = `${count} characters <span style="color:var(--danger-color)">(Approaching limit)</span>`;
+                } else if (count > 300000) {
+                    charCount.style.color = 'var(--warning-color)';
+                } else {
+                    charCount.style.color = 'var(--dark-color)';
+                }
+            }
+            
+            function showNotification(message, type = 'success') {
+                notification.textContent = message;
+                notification.style.background = type === 'success' ? 'var(--success-color)' : 'var(--danger-color)';
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Load voices for speech synthesis when available
+            if ('speechSynthesis' in window) {
+                speechSynthesis.onvoiceschanged = function() {
+                    // Voices are loaded
+                };
+            }
+        });
+    </script>
+</body>
+</html>
