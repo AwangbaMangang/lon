@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>English to Meetei Mayek Translator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #4a6fa5;
@@ -14,6 +15,7 @@
             --success-color: #28a745;
             --warning-color: #ffc107;
             --danger-color: #dc3545;
+            --nav-height: 70px;
         }
         
         * {
@@ -26,14 +28,86 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: var(--dark-color);
-            background-color: #f5f7fa;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
             padding: 0;
             margin: 0;
+            padding-top: var(--nav-height);
+        }
+        
+        /* Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            z-index: 1000;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 0.5rem;
+        }
+        
+        .nav-features {
+            display: none;
+        }
+        
+        .nav-toggle {
+            margin-left: auto;
+            font-size: 1.5rem;
+            color: var(--dark-color);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .mobile-features {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 0.8rem;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+        }
+        
+        .feature-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .feature-item i {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.3rem;
+        }
+        
+        .feature-item span {
+            font-size: 0.7rem;
         }
         
         .container {
             max-width: 100%;
-            padding: 1rem;
+            padding: 1.5rem 1rem 5rem;
             margin: 0 auto;
         }
         
@@ -43,7 +117,7 @@
             padding: 1.5rem 1rem;
             text-align: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 0 0 15px 15px;
+            border-radius: 12px;
             margin-bottom: 1.5rem;
         }
         
@@ -142,10 +216,6 @@
             color: var(--dark-color);
         }
         
-        .btn-danger {
-            background: var(--danger-color);
-        }
-        
         .button-group {
             display: flex;
             gap: 0.5rem;
@@ -189,49 +259,17 @@
             font-size: 1.3rem;
         }
         
-        .features {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-        
-        .feature {
-            text-align: center;
-            padding: 1rem;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        }
-        
-        .feature i {
-            font-size: 1.8rem;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-        
-        .feature h3 {
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .feature p {
-            font-size: 0.9rem;
-            color: #6c757d;
-        }
-        
         footer {
             text-align: center;
             padding: 1.5rem;
             margin-top: 2rem;
             color: #6c757d;
             font-size: 0.9rem;
-            border-top: 1px solid #e1e5eb;
         }
         
         .notification {
             position: fixed;
-            bottom: 20px;
+            bottom: 70px;
             left: 50%;
             transform: translateX(-50%);
             background: var(--success-color);
@@ -251,7 +289,37 @@
         @media (min-width: 768px) {
             .container {
                 max-width: 720px;
-                padding: 2rem;
+                padding: 2rem 2rem 3rem;
+            }
+            
+            .navbar {
+                padding: 0 2rem;
+            }
+            
+            .nav-features {
+                display: flex;
+                margin-left: auto;
+                gap: 2rem;
+            }
+            
+            .nav-feature {
+                display: flex;
+                align-items: center;
+                font-size: 0.9rem;
+                color: var(--dark-color);
+            }
+            
+            .nav-feature i {
+                margin-right: 0.5rem;
+                color: var(--primary-color);
+            }
+            
+            .nav-toggle {
+                display: none;
+            }
+            
+            .mobile-features {
+                display: none;
             }
             
             h1 {
@@ -262,16 +330,16 @@
                 font-size: 1.2rem;
             }
             
-            .features {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            
             .button-group {
                 flex-direction: row;
             }
             
             .button-group .btn {
                 width: auto;
+            }
+            
+            .notification {
+                bottom: 20px;
             }
         }
         
@@ -320,34 +388,76 @@
                 transform: scale(1);
             }
         }
-        
-        /* Meetei Mayek font */
-        @font-face {
-            font-family: 'Noto Sans Meetei Mayek';
-            src: url('https://fonts.googleapis.com/css2?family=Noto+Sans+Meetei+Mayek:wght@400;700&display=swap');
-        }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>English to Meetei Mayek Translator</h1>
-            <p class="subtitle">Translate English text to Meetei Mayek script with ease</p>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-language"></i>
+            <span>Meetei Translator</span>
         </div>
-    </header>
+        
+        <div class="nav-features">
+            <div class="nav-feature">
+                <i class="fas fa-file-alt"></i>
+                <span>Large Text Support</span>
+            </div>
+            <div class="nav-feature">
+                <i class="fas fa-mobile-alt"></i>
+                <span>Mobile Friendly</span>
+            </div>
+            <div class="nav-feature">
+                <i class="fas fa-bolt"></i>
+                <span>Fast Translation</span>
+            </div>
+            <div class="nav-feature">
+                <i class="fas fa-star"></i>
+                <span>Easy to Use</span>
+            </div>
+        </div>
+        
+        <button class="nav-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Mobile Features -->
+    <div class="mobile-features">
+        <div class="feature-item">
+            <i class="fas fa-file-alt"></i>
+            <span>Large Text</span>
+        </div>
+        <div class="feature-item">
+            <i class="fas fa-mobile-alt"></i>
+            <span>Mobile Friendly</span>
+        </div>
+        <div class="feature-item">
+            <i class="fas fa-bolt"></i>
+            <span>Fast</span>
+        </div>
+        <div class="feature-item">
+            <i class="fas fa-star"></i>
+            <span>Easy to Use</span>
+        </div>
+    </div>
 
     <div class="container">
+        <header>
+            <h1>English to Meetei Mayek Translator</h1>
+            <p class="subtitle">Translate English text to Meetei Mayek script with ease</p>
+        </header>
+
         <div class="card">
-            <h2 class="card-title"><i>📥</i> Input Text (English)</h2>
-            <textarea id="inputText" placeholder="Type or paste English text here (up to 60,000 words)..." autofocus></textarea>
+            <h2 class="card-title"><i class="fas fa-keyboard"></i> Input Text (English)</h2>
+            <textarea id="inputText" placeholder="Type English text here (up to 60,000 words)..." autofocus></textarea>
             <div class="button-group">
-                <button class="btn btn-primary" id="pasteBtn"><i>📋</i> Paste</button>
-                <button class="btn btn-warning" id="clearBtn"><i>🗑️</i> Clear</button>
+                <button class="btn btn-warning" id="clearBtn"><i class="fas fa-trash"></i> Clear</button>
             </div>
         </div>
 
         <div class="button-group">
-            <button class="btn btn-secondary" id="translateBtn"><i>🔁</i> Translate to Meetei Mayek</button>
+            <button class="btn btn-secondary" id="translateBtn"><i class="fas fa-exchange-alt"></i> Translate to Meetei Mayek</button>
         </div>
 
         <div class="loader" id="loader">
@@ -357,35 +467,11 @@
         </div>
 
         <div class="card output-container">
-            <h2 class="card-title"><i>📤</i> Translated Text (Meetei Mayek)</h2>
+            <h2 class="card-title"><i class="fas fa-font"></i> Translated Text (Meetei Mayek)</h2>
             <div id="charCount" class="char-count">0 characters</div>
             <div id="outputText" class="translation-result meetei-mayek">Your translation will appear here...</div>
             <div class="button-group">
-                <button class="btn btn-success" id="copyBtn"><i>📄</i> Copy Translation</button>
-                <button class="btn btn-primary" id="speakBtn"><i>🔊</i> Speak Translation</button>
-            </div>
-        </div>
-
-        <div class="features">
-            <div class="feature">
-                <i>📝</i>
-                <h3>Large Text Support</h3>
-                <p>Handles up to 60,000 words</p>
-            </div>
-            <div class="feature">
-                <i>📱</i>
-                <h3>Mobile Friendly</h3>
-                <p>Works perfectly on all devices</p>
-            </div>
-            <div class="feature">
-                <i>⚡</i>
-                <h3>Fast Translation</h3>
-                <p>Quick and accurate results</p>
-            </div>
-            <div class="feature">
-                <i>🎯</i>
-                <h3>Easy to Use</h3>
-                <p>Simple and intuitive interface</p>
+                <button class="btn btn-success" id="speakBtn"><i class="fas fa-volume-up"></i> Speak Translation</button>
             </div>
         </div>
     </div>
@@ -396,27 +482,23 @@
         </div>
     </footer>
 
-    <div class="notification" id="notification">Text copied to clipboard!</div>
+    <div class="notification" id="notification">Translation completed!</div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // DOM Elements
             const inputText = document.getElementById('inputText');
             const outputText = document.getElementById('outputText');
-            const pasteBtn = document.getElementById('pasteBtn');
             const clearBtn = document.getElementById('clearBtn');
             const translateBtn = document.getElementById('translateBtn');
-            const copyBtn = document.getElementById('copyBtn');
             const speakBtn = document.getElementById('speakBtn');
             const charCount = document.getElementById('charCount');
             const loader = document.getElementById('loader');
             const notification = document.getElementById('notification');
             
             // Event Listeners
-            pasteBtn.addEventListener('click', handlePaste);
             clearBtn.addEventListener('click', handleClear);
             translateBtn.addEventListener('click', handleTranslate);
-            copyBtn.addEventListener('click', handleCopy);
             speakBtn.addEventListener('click', handleSpeak);
             inputText.addEventListener('input', updateCharCount);
             
@@ -424,25 +506,6 @@
             updateCharCount();
             
             // Functions
-            function handlePaste() {
-                navigator.clipboard.readText()
-                    .then(text => {
-                        // Limit to 60,000 words (approx 400,000 characters to be safe)
-                        if (text.length > 400000) {
-                            alert('The text in your clipboard is too long. Please paste text with less than 60,000 words.');
-                            return;
-                        }
-                        
-                        inputText.value = text;
-                        updateCharCount();
-                        showNotification('Text pasted successfully!');
-                    })
-                    .catch(err => {
-                        console.error('Failed to read clipboard contents: ', err);
-                        alert('Unable to access clipboard. Please paste manually.');
-                    });
-            }
-            
             function handleClear() {
                 inputText.value = '';
                 outputText.textContent = 'Your translation will appear here...';
@@ -519,7 +582,22 @@
                     'deep': 'ꯗꯤꯞ',
                     'requires': 'ꯔꯤꯀ꯭ꯋꯥꯏꯌꯥꯔꯁ',
                     'large': 'ꯂꯥꯔꯖ',
-                    'datasets': 'ꯗꯦꯇꯥꯁꯦꯇꯁ'
+                    'datasets': 'ꯗꯦꯇꯥꯁꯦꯇꯁ',
+                    'english': 'ꯏꯪꯂꯤꯁ',
+                    'to': 'ꯇꯨ',
+                    'meetei mayek': 'ꯃꯤꯇꯩ ꯃꯌꯦꯛ',
+                    'translator': 'ꯇ꯭ꯔꯥꯟꯁ꯭ꯂꯦꯇꯔ',
+                    'app': 'ꯑꯦꯞ',
+                    'feature': 'ꯐꯤꯆꯔ',
+                    'design': 'ꯗꯤꯖꯥꯏꯟ',
+                    'interface': 'ꯏꯟꯇꯔꯐꯦꯁ',
+                    'user': 'ꯌꯨꯖꯔ',
+                    'friendly': 'ꯐ꯭ꯔꯦꯟꯗꯂꯤ',
+                    'navigation': 'ꯅꯦꯚꯤꯒꯦꯁꯟ',
+                    'bar': 'ꯕꯥꯔ',
+                    'support': 'ꯁꯄꯣꯔꯠ',
+                    'fast': 'ꯐꯥꯁꯠ',
+                    'easy': 'ꯏꯖꯤ'
                 };
                 
                 // Convert text to lowercase and split into words
@@ -548,24 +626,6 @@
                 });
                 
                 return translatedWords.join(' ');
-            }
-            
-            function handleCopy() {
-                const text = outputText.textContent;
-                
-                if (!text || text === 'Your translation will appear here...') {
-                    showNotification('Nothing to copy!', 'error');
-                    return;
-                }
-                
-                navigator.clipboard.writeText(text)
-                    .then(() => {
-                        showNotification('Translation copied to clipboard!');
-                    })
-                    .catch(err => {
-                        console.error('Failed to copy: ', err);
-                        showNotification('Failed to copy text.', 'error');
-                    });
             }
             
             function handleSpeak() {
